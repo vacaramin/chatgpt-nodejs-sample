@@ -1,37 +1,29 @@
-const axios = require('axios');
-require('dotenv').config()
+const openai = require('openai');
 
-// Define your API endpoint
-const CHATGPT_API_ENDPOINT = 'https://api.openai.com/v1/engines/davinci/completions';
+// require('dotenv').config()
 
-// Define your OpenAI API key
-const OPENAI_API_KEY = process.;
+// console.log(process.env)
+
+// // Define your OpenAI API key
+// const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // Text to send to ChatGPT for completion
 const prompt = "Once upon a time, ";
 
 // Function to send request to ChatGPT API
-async function generateChatResponse() {
+async function Chat_Completion(prompt) {
   try {
-    const response = await axios.post(
-      CHATGPT_API_ENDPOINT,
-      {
-        "prompt": prompt,
-        "max_tokens": 150
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${OPENAI_API_KEY}`
-        }
-      }
-    );
+    const completion = await openai.chat.completions.create({
+        messages: [{ role: "system", content: "You are a helpful assistant." }],
+        model: "gpt-3.5-turbo",
+      });
 
-    console.log("Generated response:", response.data.choices[0].text.trim());
+      console.log(choices[0]);
+
   } catch (error) {
     console.error("Error generating response:", error.response ? error.response.data : error.message);
   }
 }
 
 // Call the function to generate a ChatGPT response
-generateChatResponse();
+Chat_Completion();
